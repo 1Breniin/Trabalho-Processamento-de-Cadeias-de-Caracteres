@@ -19,20 +19,18 @@ int ler_entrada(const char *nome_arquivo, Teste **testes) {
         if (M == 0 && T == 0) break;
 
         lista_testes = realloc(lista_testes, (num_testes + 1) * sizeof(Teste));
-        lista_testes[num_testes].musica = malloc((M * 3 + 1) * sizeof(char));  // 3 caracteres por nota
-        lista_testes[num_testes].trecho = malloc((T * 3 + 1) * sizeof(char));
+        lista_testes[num_testes].musica = calloc(M * 4 + 1, sizeof(char)); // Inicializa as strings
+        lista_testes[num_testes].trecho = calloc(T * 4 + 1, sizeof(char));
 
-        // Lê a música
         for (int i = 0; i < M; i++) {
             char nota[4];
-            fscanf(arquivo, " %s", nota);
+            fscanf(arquivo, "%s", nota);
             strcat(lista_testes[num_testes].musica, nota);
         }
 
-        // Lê o trecho
         for (int i = 0; i < T; i++) {
             char nota[4];
-            fscanf(arquivo, " %s", nota);
+            fscanf(arquivo, "%s", nota);
             strcat(lista_testes[num_testes].trecho, nota);
         }
 

@@ -63,11 +63,15 @@ int kmp(const char *musica, const char *trecho, int *posicao) {
 }
 
 int boyer_moore(const char *musica, const char *trecho, int *posicao) {
-    int n = strlen(musica);
-    int m = strlen(trecho);
+    int n = strlen(musica);  // Tamanho do texto
+    int m = strlen(trecho);  // Tamanho do padrão
 
-    // Tabela de bad character
-    int bad_char[256]; // Supondo ASCII
+    if (m > n) {
+        return 0;  // Padrão maior que o texto, impossível casar
+    }
+
+    // Construção da tabela de bad-character
+    int bad_char[256];
     for (int i = 0; i < 256; i++) {
         bad_char[i] = -1;
     }
@@ -75,51 +79,51 @@ int boyer_moore(const char *musica, const char *trecho, int *posicao) {
         bad_char[(unsigned char)trecho[i]] = i;
     }
 
-    int i = 0;
-    while (i <= n - m) {
+    // Busca usando o Boyer-Moore
+    int shift = 0;  // Deslocamento no texto
+    while (shift <= (n - m)) {
         int j = m - 1;
-        while (j >= 0 && musica[i + j] == trecho[j]) {
+
+        // Encontra a correspondência da direita para a esquerda
+        while (j >= 0 && trecho[j] == musica[shift + j]) {
             j--;
         }
+
         if (j < 0) {
-            *posicao = i; // A posição do início do trecho
-            printf("Encontrado na posição %d\n", i);  // Debug
+            *posicao = shift;  // Match encontrado
             return 1;
         } else {
-            i += (j - bad_char[(unsigned char)musica[i + j]]);
+            // Desloca de acordo com a tabela de bad-character
+            shift += (j - bad_char[(unsigned char)musica[shift + j]] > 1) ? 
+                      j - bad_char[(unsigned char)musica[shift + j]] : 1;
         }
     }
-    return 0;
+
+    return 0;  // Nenhum match encontrado
 }
 
 int shift_and(const char *musica, const char *trecho, int *posicao) {
     int n = strlen(musica);
     int m = strlen(trecho);
 
-    unsigned long long int mascara = 1; // Máscara para a primeira posição
-    unsigned long long int msk[m]; // Vetor de máscaras
+    if (m > 64) {
+        fprintf(stderr, "Erro: O Shift-And suporta padrões de até 64 caracteres.\n");
+        return 0;
+    }
 
-    // Construção das máscaras para o padrão
+    unsigned long long int msk[256] = {0}; // Máscaras para todos os caracteres
     for (int i = 0; i < m; i++) {
-        msk[i] = 0;
-        for (int j = 0; j < n; j++) {
-            if (trecho[i] == musica[j]) {
-                msk[i] |= (1 << j);
-            }
+        msk[(unsigned char)trecho[i]] |= (1ULL << i);
+    }
+
+    unsigned long long int S = 0; // Estado atual
+    for (int i = 0; i < n; i++) {
+        S = ((S << 1) | 1) & msk[(unsigned char)musica[i]];
+        if (S & (1ULL << (m - 1))) {
+            *posicao = i - m + 1;
+            return 1;
         }
     }
 
-    unsigned long long int S = 0;
-    for (int i = 0; i < n; i++) {
-        S |= (1 << i); // Atualiza o shift
-        for (int j = 0; j < m; j++) {
-            if ((S & msk[j]) == msk[j]) {
-                *posicao = i - m + 1; // Ajusta a posição correta
-                printf("Encontrado na posição %d\n", i);  // Debug
-                printf("Encontrado na posição %d\n", i);  // Debug
-                return 1;
-            }
-        }
-    }
-    return 0;
+    return 0; // Nenhum match encontrado
 }
