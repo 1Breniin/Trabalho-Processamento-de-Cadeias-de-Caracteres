@@ -1,0 +1,7 @@
+16 4
+D G A B C D G G G C D E F# G C C
+G G C D
+12 2
+C C# D D# E F F# G G# A A# B
+C D
+0 0
