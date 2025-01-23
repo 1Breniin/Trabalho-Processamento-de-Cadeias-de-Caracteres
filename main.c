@@ -4,18 +4,6 @@
 #include "io.h"
 #include "algoritmos.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "io.h"
-#include "algoritmos.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "io.h"
-#include "algoritmos.h"
-
 int main(int argc, char *argv[]) {
     if (argc < 3) {
         printf("Uso: %s <arquivo_de_entrada> <metodo>\n", argv[0]);
