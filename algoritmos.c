@@ -19,7 +19,7 @@ int forca_bruta(const char *musica, const char *trecho, int *posicao) {
         // Se o trecho for encontrado
         if (j == m) {
             *posicao = i;  // Armazena a posição inicial
-            printf("Encontrado na posição %d\n", i);  // Debug
+            printf("[Força Bruta] Trecho encontrado na posição: %d\n", i);
             return 1;  // Trecho encontrado
         }
     }
@@ -56,6 +56,7 @@ int kmp(const char *musica, const char *trecho, int *posicao) {
         }
         if (j == m) {
             *posicao = i - m + 1; // Ajuste da posição
+            printf("[KMP] Trecho encontrado na posição: %d\n", *posicao);
             return 1; // Padrão encontrado
         }
     }
@@ -91,6 +92,7 @@ int boyer_moore(const char *musica, const char *trecho, int *posicao) {
 
         if (j < 0) {
             *posicao = shift;  // Match encontrado
+            printf("[Boyer-Moore] Trecho encontrado na posição: %d\n", shift);
             return 1;
         } else {
             // Desloca de acordo com a tabela de bad-character
@@ -121,6 +123,7 @@ int shift_and(const char *musica, const char *trecho, int *posicao) {
         S = ((S << 1) | 1) & msk[(unsigned char)musica[i]];
         if (S & (1ULL << (m - 1))) {
             *posicao = i - m + 1;
+            printf("[Shift-And] Trecho encontrado na posição: %d\n", *posicao);
             return 1;
         }
     }
