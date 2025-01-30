@@ -4,13 +4,14 @@
 #include "io.h"
 #include "algoritmos.h"
 
+
 int main(int argc, char *argv[]) {
     if (argc < 3) {
         printf("Uso: %s <arquivo_de_entrada> <metodo>\n", argv[0]);
         return 1;
     }
 
-    char *nome_arquivo = argv[1];
+   char *nome_arquivo = argv[1];
     int metodo = atoi(argv[2]);
 
     Teste *testes;
@@ -25,6 +26,8 @@ int main(int argc, char *argv[]) {
         perror("Erro ao abrir arquivo de saída");
         return 1;
     }
+
+    medir_tempo(nome_arquivo, metodo);
 
     for (int i = 0; i < num_testes; i++) {
         int posicao = -1;
