@@ -3,7 +3,7 @@
 #include <string.h>
 #include "io.h"
 #include "algoritmos.h"
-
+#include "time.h"
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {
@@ -32,12 +32,13 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < num_testes; i++) {
         int posicao = -1;
         int plagiado = 0;
+        int comparacoes = 0;
 
         switch (metodo) {
-            case 1: plagiado = forca_bruta(testes[i].musica, testes[i].trecho, &posicao); break;
-            case 2: plagiado = kmp(testes[i].musica, testes[i].trecho, &posicao); break;
-            case 3: plagiado = boyer_moore(testes[i].musica, testes[i].trecho, &posicao); break;
-            case 4: plagiado = shift_and(testes[i].musica, testes[i].trecho, &posicao); break;
+            case 1: plagiado = forca_bruta(testes[i].musica, testes[i].trecho, &posicao, &comparacoes); break;
+            case 2: plagiado = kmp(testes[i].musica, testes[i].trecho, &posicao, &comparacoes); break;
+            case 3: plagiado = boyer_moore(testes[i].musica, testes[i].trecho, &posicao, &comparacoes); break;
+            case 4: plagiado = shift_and(testes[i].musica, testes[i].trecho, &posicao, &comparacoes); break;
             default: fprintf(stderr, "Método inválido.\n"); return 1;
         }
 
@@ -46,6 +47,9 @@ int main(int argc, char *argv[]) {
         } else {
             fprintf(saida, "N\n");
         }
+
+        printf("Teste %d: Comparações = %d\n", i + 1, comparacoes);
+        
     }
 
     fclose(saida);
