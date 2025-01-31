@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
+// implementação do algortimo de Força bruta
 int forca_bruta(const char *musica, const char *trecho, int *posicao, int *comparacoes) {
     int n = strlen(musica); // Tamanho da música
     int m = strlen(trecho); // Tamanho do trecho
@@ -28,6 +29,7 @@ int forca_bruta(const char *musica, const char *trecho, int *posicao, int *compa
     return 0;
 }
 
+// implementação do algortimo Kmp
 int kmp(const char *musica, const char *trecho, int *posicao, int *comparacoes) {
     int n = strlen(musica);
     int m = strlen(trecho);
@@ -68,6 +70,7 @@ int kmp(const char *musica, const char *trecho, int *posicao, int *comparacoes) 
     return 0; //Padrão não encontrado
 }
 
+// implementação do algortimo de Boyer-moore
 int boyer_moore(const char *musica, const char *trecho, int *posicao, int *comparacoes) {
     int n = strlen(musica); // Tamanho do texto
     int m = strlen(trecho); //Tamanho do padrão
@@ -108,6 +111,7 @@ int boyer_moore(const char *musica, const char *trecho, int *posicao, int *compa
     return 0;
 }
 
+// implementação do algortimo Shift-and
 int shift_and(const char *musica, const char *trecho, int *posicao, int *comparacoes) {
     int n = strlen(musica);
     int m = strlen(trecho);
